@@ -1,7 +1,9 @@
 import { Variables, UploadableMap } from 'react-relay';
 import { RequestNode } from 'relay-runtime';
 
-export const GRAPHQL_URL = 'http://localhost:5000/graphql';
+// export const GRAPHQL_URL = 'http://localhost:5000/graphql';
+export const GRAPHQL_URL =
+  'https://api.graph.cool/simple/v1/ciyz901en4j590185wkmexyex';
 
 // Define a function that fetches the results of a request (query/mutation/etc)
 // and returns its results as a Promise:

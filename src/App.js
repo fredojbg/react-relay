@@ -1,19 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import graphql from 'babel-plugin-relay/macro';
 import { QueryRenderer } from 'react-relay';
 
 import { Environment } from './relay';
 
 const App = ({ query }) => {
+  const listItems = query.allUsers.map(item => (
+    <li key={item.id}>{item.name}</li>
+  ));
   return (
     <div className='App'>
-      <header className='App-header'>
+      <header className='app-header'>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <span>me: ${query.me && query.me.name}</span>
+        <span>me: ${listItems}</span>
         <a
-          className='App-link'
+          className='app-link'
           href='https://reactjs.org'
           target='_blank'
           rel='noopener noreferrer'>
@@ -30,7 +33,7 @@ const AppQR = () => {
       environment={Environment}
       query={graphql`
         query AppQuery {
-          me {
+          allUsers {
             id
             name
           }
