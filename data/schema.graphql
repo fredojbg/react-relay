@@ -63,6 +63,14 @@ type Query {
     last: Int
     search: String
   ): UserConnection
+
+  allUsers(
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [User!]!
 }
 
 type Subscription {
