@@ -75,6 +75,14 @@ type Query {
     last: Int
   ): [User!]!
 
+  allPosts(
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Post!]!
+
   posts(
     skip: Int
     after: String
@@ -102,7 +110,7 @@ type User implements Node {
   active: Boolean
 }
 
-type Post {
+type Post implements Node {
   """
   The ID of an object
   """
