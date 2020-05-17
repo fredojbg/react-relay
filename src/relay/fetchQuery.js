@@ -13,6 +13,7 @@ const fetchQuery = async (request: RequestNode, variables: Variables) => {
     query: request.text, // GraphQL text from input
     variables,
   });
+
   const headers = {
     Accept: 'application/json',
     'Content-type': 'application/json',

@@ -1,21 +1,24 @@
 import * as React from 'react';
+import hoistStatics from 'hoist-non-react-statics';
 import { QueryRenderer } from 'react-relay';
 
 import { GraphQLTaggedNode, Variables } from 'react-relay';
 
 import Environment from './Environment';
+// import ErrorView from './ErrorView';
+// import LoadingView from './LoadingView';
 
-type Config = {
-  query: GraphQLTaggedNode,
-  queriesParams?: (props: Object) => object,
-  variables?: Variables,
-  hideSplash?: boolean,
-};
-
+// type Config = {
+//   query: GraphQLTaggedNode,
+//   queriesParams?: (props: object) => Variables,
+//   variables?: Variables,
+//   getFragmentProps?: (fragmentProps: object) => object,
+//   loadingView?: React.ReactNode | null,
+// };
 export default function createQueryRenderer(
   FragmentComponent,
   Component,
-  config: Config,
+  config,
 ) {
   const { query, queriesParams } = config;
 
@@ -30,21 +33,29 @@ export default function createQueryRenderer(
           environment={Environment}
           query={query}
           variables={variables}
-          render={({ error, props }) => {
+          render={({ error, props, retry }) => {
             if (error) {
-              return <span>{error.toString()}</span>;
+              return console.log('error');
             }
 
             if (props) {
-              return <FragmentComponent {...this.props} query={props} />;
+              const fragmentProps = config.getFragmentProps
+                ? config.getFragmentProps(props)
+                : { query: props };
+
+              return <FragmentComponent {...this.props} {...fragmentProps} />;
             }
 
-            return <span>loading</span>;
+            if (config.loadingView !== undefined) {
+              return config.loadingView;
+            }
+
+            return console.log('loading');
           }}
         />
       );
     }
   }
 
-  return QueryRendererWrapper;
+  return hoistStatics(QueryRendererWrapper, Component);
 }
