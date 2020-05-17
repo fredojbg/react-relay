@@ -54,8 +54,11 @@ type Query {
     """
     id: ID!
   ): Node
+
   me: User
   user(id: ID!): User
+  Post(id: ID!): Post
+
   users(
     after: String
     first: Int
@@ -71,6 +74,14 @@ type Query {
     first: Int
     last: Int
   ): [User!]!
+
+  posts(
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Post!]
 }
 
 type Subscription {
@@ -89,6 +100,16 @@ type User implements Node {
   name: String
   email: String
   active: Boolean
+}
+
+type Post {
+  """
+  The ID of an object
+  """
+  id: ID!
+  _id: String
+  text: String!
+  title: String!
 }
 
 type UserAddedPayload {
